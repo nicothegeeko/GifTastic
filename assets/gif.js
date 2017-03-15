@@ -13,23 +13,20 @@ $(document).ready(function() {
 
     function renderButtons() {
 
-        // Deleting the movie buttons prior to adding new movie buttons
-        // (this is necessary otherwise we will have repeat buttons)
+        // Deleting the buttons prior to adding new buttons
         $("#topics-view").empty();
 
-        // Looping through the array of movies
+        // Looping through the array of topics
         for (var i = 0; i < topics.length; i++) {
 
-            // Then dynamicaly generating buttons for each movie in the array.
-            // This code $("<button>") is all jQuery needs to create the start and end tag. (<button></button>)
+            // Then dynamicaly generating buttons for each topic in the array.
             var a = $("<button>");
             // Adding a class
             a.addClass("topic");
-            // Adding a data-attribute with a value of the movie at index i
+            // Adding a data-attribute with a value of the topic at index i
             a.attr("data-name", topics[i]);
-            // Providing the button's text with a value of the movie at index i
+            // Providing the button's text with a value of the topic at index i
 
-            // var a = $("<button class=movie data-name=''").attr("data-name", movies[i]);
             a.text(topics[i]);
             // Adding the button to the HTML
             $("#topics-view").append(a);
@@ -54,43 +51,43 @@ $(document).ready(function() {
 
             var results = response.data;
             for (var i = 0; i < results.length; i++) {
-              
+
 
 
                 var dogDiv = $('<div class="dog-class" title="Click on gif to start and stop animation">');
 
-                
+
                 var p = $('<p>').text("Rating: " + results[i].rating);
 
 
-                   var dogImage = $('<img>').on("click", function() {
+                var dogImage = $('<img>').on("click", function() {
                     var state = $(this).attr("data-state");
                     console.log(state);
 
-                    if (state == "still"){
-                      var changeState = $(this).attr("data-animate");
-                      $(this).attr("src", changeState);
-                      $(this).attr("data-state", "animate");
+                    if (state == "still") {
+                        var changeState = $(this).attr("data-animate");
+                        $(this).attr("src", changeState);
+                        $(this).attr("data-state", "animate");
                     }
 
-                    if (state == "animate"){
-                      $(this).attr("src", $(this).attr("data-still"));
-                      $(this).attr("data-state", "still");
+                    if (state == "animate") {
+                        $(this).attr("src", $(this).attr("data-still"));
+                        $(this).attr("data-state", "still");
 
 
                     }
-                   });
-                    dogImage.attr('src', results[i].images.fixed_height.url);
-                    dogImage.attr('data-still', results[i].images.fixed_height_still.url);
-                    dogImage.attr('data-state', 'still');
-                    dogImage.addClass('gif');
-                    dogImage.attr('data-animate', results[i].images.fixed_height.url);
+                });
+                dogImage.attr('src', results[i].images.fixed_height.url);
+                dogImage.attr('data-still', results[i].images.fixed_height_still.url);
+                dogImage.attr('data-state', 'still');
+                dogImage.addClass('gif');
+                dogImage.attr('data-animate', results[i].images.fixed_height.url);
 
-                    dogDiv.append(p);
-                    dogDiv.prepend(dogImage);
-                    console.log(dogImage, dogDiv)
-                    $('#gifSection').prepend(dogDiv);
- 
+                dogDiv.append(p);
+                dogDiv.prepend(dogImage);
+                console.log(dogImage, dogDiv)
+                $('#gifSection').prepend(dogDiv);
+
             }
 
 
@@ -103,19 +100,18 @@ $(document).ready(function() {
     // This function handles events where one button is clicked
     $("#add-topic").on("click", function(event) {
         // event.preventDefault() prevents the form from trying to submit itself.
-        // We're using a form so that the user can hit enter instead of clicking the button if they want
         event.preventDefault();
 
         // This line will grab the text from the input box
         var topic = $("#topic-input").val().trim();
-        // The movie from the textbox is then added to our array
+        // The topic from the textbox is then added to our array
         topics.push(topic);
 
         // calling renderButtons which handles the processing of our movie array
         renderButtons();
     });
 
-    // Calling the renderButtons function at least once to display the initial list of movies
+    // Calling the renderButtons function at least once to display the initial list of topics
     renderButtons();
 
     $(document).on("click", ".topic", generateOnClick);
